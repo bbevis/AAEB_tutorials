@@ -2,7 +2,7 @@
 # Data types
 
 my_var <- 30 # my_var is type of numeric
-my_var <- "Sally" # my_var is now of type character (aka string)
+my_var <- "30" # my_var is now of type character (aka string)
 
 # numeric - (10.5, 55, 787)
 # integer - (1L, 55L, 100L, where the letter "L" declares this as an integer)
@@ -68,7 +68,12 @@ Data_Frame
 #########################
 # Tutorial week 2
 #########################
+# install.packages('dplyr')
+
 library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(stargazer)
 # Read in data
 auto = read.csv('auto.csv', header = TRUE)
 
@@ -89,33 +94,46 @@ auto <- read.csv("https://www.dropbox.com/s/gm22o5efboc3q0w/auto.csv?dl=1", head
 # Get some summary statistics
 summary(auto)
 colnames(auto)
+stargazer(auto)
 
 # Some data manipulations (requires dplyr)
+# dplyr allows you to use the piping operator (%>%)
+
+# select only certain columns
 auto %>%
   select(make, price, mpg)
 
+# This saves the dataframe as an object
 auto_small = auto %>%
   select(make, price, mpg)
 
+# filter rows based on condition
 auto %>%
   select(make, price, mpg) %>%
   filter(price > mean(price))
 
+# filter rows based on multiple condition
+auto %>%
+  select(make, price, mpg) %>%
+  filter(price > mean(price) & mpg < mean(mpg))
+
+# group_by allows you to summaries results at a group level
 auto %>%
   select(make, price, mpg) %>%
   filter(price > mean(price)) %>%
   group_by(make) %>%
   summarise(mean(price), max(mpg))
 
-library(tidyr)
+
 # wide to long use gather()
 #.long to wide use spread()
 
 # Exercise 2
 covid=read.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv")
 
-# transform and create new variables
-covid_july=covid %>% filter(as.Date.character(date)=="2020-07-31") %>%
+# transform and create new variables using mutate() function
+covid_july=covid %>%
+  filter(as.Date.character(date)=="2020-07-31") %>%
   mutate(deathsOcases=deaths/cases,
          deaths_sh=deaths/sum(deaths),
          cases_sh=cases/sum(cases))
@@ -126,8 +144,9 @@ head(covid_july,10)
 covid_july %>%
   filter(deathsOcases==max(deathsOcases))
 
-# plotting
-library(ggplot2)
+########################################
+# plotting (using ggplot)
+########################################
 
 covid %>%
   group_by(date) %>%
@@ -163,14 +182,17 @@ covid %>%
   mutate(date=as.Date(date),
          deathsOcases=deaths/cases) %>%
   ggplot(aes(x=date, y=deathsOcases)) +
-  geom_point(color = 'blue') + 
+  geom_point(color = "blue") + 
+  # geom_point(color = "#00BFC4") + 
   scale_x_date(date_breaks="1 month",date_labels = "%b") +
-  theme_bw() +
-  theme(axis.text=element_text(size=10),
-        axis.title=element_text(size=18,face="bold"),
-        legend.position = 'None',
-        panel.grid = element_blank(),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  # theme_bw() +
+  theme(axis.text=element_text(size=12),
+        # axis.title=element_text(size=20,face="bold"),
+        # # strip.background = element_blank(),
+        # # strip.text = element_text(size = 24, ,face="bold"),
+        # panel.grid = element_blank(),
+        # axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+        ) +
   labs(x="Month",y="Death per cases") +
   facet_wrap(~state)
 
