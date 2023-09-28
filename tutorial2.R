@@ -135,11 +135,9 @@ covid %>%
   mutate(deathsOcases=deaths/cases * 100) %>%
   group_by(state) %>%
   summarize(m=mean(deathsOcases,na.rm=T),
-            se=sd(deathsOcases,na.rm=T)/sqrt(n())) +
-  ggplot(aes(x=condition,y=m,
-             ymin=m-se,ymax=m+se, color = condition))
+            se=sd(deathsOcases,na.rm=T)/sqrt(n()))
 
-
+# points are usually cleaner than bars
 covid %>%
   filter(state%in%c('Alabama', 'New York', 'Texas', 'California')) %>%
   mutate(deathsOcases=deaths/cases * 100) %>%
@@ -151,7 +149,7 @@ covid %>%
   geom_point(size = 5) +
   theme_bw()
 
-
+# Error bars help us to understand significance levels
 covid %>%
   filter(state%in%c('Alabama', 'New York', 'Texas', 'California')) %>%
   mutate(deathsOcases=deaths/cases * 100) %>%
@@ -173,7 +171,6 @@ covid %>%
 
 
 # if we were to run a regression of States on death per cases, what would we expect?
-
 covid %>%
   filter(state%in%c('Alabama', 'New York', 'Texas', 'California')) %>%
   mutate(deathsOcases=deaths/cases * 100) %>%
