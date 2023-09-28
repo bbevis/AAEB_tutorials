@@ -16,11 +16,10 @@ auto %>%
 
 auto %>%
   ggplot(aes(x = mpg)) +
-  geom_histogram(binwidth = 2, color = 'blue', fill = 'lightblue') +
+  geom_histogram(binwidth = 2,  color = 'blue', fill = 'lightgrey') +
   theme_bw() +
   theme(axis.text=element_text(size=20),
         axis.title=element_text(size=18,face="bold"),
-        legend.position = 'None',
         panel.grid = element_blank()) +
   labs(x="MPG",y="Count")
 
