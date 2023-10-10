@@ -11,7 +11,7 @@ auto %>%
 
 auto %>%
   ggplot(aes(x = mpg)) +
-  geom_histogram(binwidth = 10)
+  geom_histogram(binwidth = 5)
 
 
 auto %>%

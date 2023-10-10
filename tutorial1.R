@@ -74,6 +74,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(stargazer)
+
 # Read in data
 auto = read.csv('auto.csv', header = TRUE)
 
@@ -111,6 +112,7 @@ auto_small = auto %>%
 auto %>%
   select(make, price, mpg) %>%
   filter(price > mean(price))
+  
 
 # filter rows based on multiple condition
 auto %>%
@@ -155,7 +157,7 @@ covid %>%
          deathsOcases=deaths/cases) %>%
   ggplot(aes(x=date, y=deathsOcases)) +
   geom_point(color = 'blue') + 
-  scale_x_date(date_breaks="1 month",date_labels = "%b") +
+  scale_x_date(date_breaks="3 month",date_labels = "%b") +
   theme_bw() +
   theme(axis.text=element_text(size=10),
         axis.title=element_text(size=18,face="bold"),
@@ -185,13 +187,13 @@ covid %>%
   geom_point(color = "blue") + 
   # geom_point(color = "#00BFC4") + 
   scale_x_date(date_breaks="1 month",date_labels = "%b") +
-  # theme_bw() +
+  theme_bw() +
   theme(axis.text=element_text(size=12),
-        # axis.title=element_text(size=20,face="bold"),
-        # # strip.background = element_blank(),
-        # # strip.text = element_text(size = 24, ,face="bold"),
-        # panel.grid = element_blank(),
-        # axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
+        axis.title=element_text(size=20,face="bold"),
+        strip.background = element_blank(),
+        strip.text = element_text(size = 24, ,face="bold"),
+        panel.grid = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)
         ) +
   labs(x="Month",y="Death per cases") +
   facet_wrap(~state)
@@ -201,6 +203,8 @@ ggsave("./plots/deathrate_facet.png",dpi=200,height=5.8,width=12)
 ##########################
 # Regressions
 ##########################
+
+lm(deaths ~ cases + pop + growth)
 
 covid_states %>%
   with(summary(lm(deaths ~ cases + pop + growth)))
