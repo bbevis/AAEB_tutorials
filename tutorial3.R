@@ -88,15 +88,15 @@ mod = lm(price ~ weight, data = auto_dat)
 summary(mod)
 
 # What is the predicted price of a car weighing 2,500lb?
-value_to_forecast <- data.frame(weight=c(2500,4000))
-forecast <- predict(mod,value_to_forecast)
-
-# alternatively
+mod$coefficients
 mod$coefficients[1]
 mod$coefficients[[1]]
 
 mod$coefficients[[1]] + mod$coefficients[[2]] * 2500
 
+# alternatively
+value_to_forecast <- data.frame(weight=c(2500,4000))
+forecast <- predict(mod,value_to_forecast)
 
 # 1kg = 2.2046 lbs
 diff = 2.2046 * 500
@@ -115,6 +115,7 @@ hist(x)
 
 # lets repeat this a few times to get the average
 beta <- double(1000)
+
 for(i in 1:1000){
   print(i)
   
