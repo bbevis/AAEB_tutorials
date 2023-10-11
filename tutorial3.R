@@ -17,7 +17,6 @@ auto %>%
   theme_bw()
 
 # A bit more sophisticated
-
 # split into 2 parts. 1st, manipulate the data in the correct format
 covid %>%
   filter(state%in%c('Alabama', 'New York', 'Texas', 'California')) %>%
@@ -53,7 +52,7 @@ thresh_0.05 = 1.96
 thresh_0.01 = 2.56
 # t-value = beta / standard error
 
-beta = -0.02
+beta = -0.12
 se = 0.07
 abs(beta/se)
 
@@ -68,8 +67,7 @@ mod = lm(wage ~ educ, data = wage_dat)
 summary(mod)
 
 # alternatively...
-wage_dat %>%
-  with(summary(lm(wage ~ educ)))
+wage_dat %>% with(summary(lm(wage ~ educ)))
 
 wage_dat %>%
   with(summary(lm(tenure ~ educ)))
