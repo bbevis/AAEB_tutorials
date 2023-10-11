@@ -107,5 +107,9 @@ auto %>%
   with(summary(lm(log(price) ~ log(weight) + log(foreign))))
 # we CANOT log 0
 
+# we can kinda cheat a little by making 0 a very small number
 auto %>%
-  with(summary(lm(log(price) ~ log(weight))))
+  mutate(foreign = recode(foreign, '0' = 0.00001,
+                          '1' = 1)) %>%
+  with(summary(lm(log(price) ~ log(weight) + log(foreign))))
+# The coefficient is interpreted as an elasticity
