@@ -1,9 +1,11 @@
 library(haven)
 library(dplyr)
 library(ggplot2)
+
 resume_dat <- read_dta("https://www.dropbox.com/sh/rqmo1hvij1veff0/AABua74TH54FcmOsAs0ayMY5a/bm.dta?dl=1")
 summary(resume_dat)
 
+colnames(resume_dat)
 # Exercise 5.1
 # a
 table(resume_dat$female,resume_dat$black)
@@ -37,17 +39,17 @@ resume_dat %>%
 resume_dat %>%
   group_by(black) %>%
   summarise(m = mean(yearsexp),
-            sd = sd(yearsexp))
+            sd = sd(yearsexp)) 
 
 # Part (e)
 # The variable of interest on the data set is the variable call, which indicates a call back for an interview.
 # What percentage of people receive a call back (rounded up to 2 decimal places)?
 
-round(prop.table(table(resume_dat$call)) * 100, 2)
+round(prop.table(table(resume_dat$call)), 3)
 # 8.05% receive a call back
 
 
-round(prop.table(resume_dat$call,resume_dat$black), 2) * 100, 2)
+round(prop.table(table(resume_dat$call,resume_dat$black), 2) * 100, 2)
 # Note that by specifying 2 in the prop.table function, we report proportions by column
 # You can see differences between race... but is it significant?
 
@@ -66,27 +68,30 @@ resume_dat %>%
 # the coefficient is the log odds (related to probability of the outcome = 1)
 
 # Exercise 5.3
+library(foreign)
 cps_dat <- read.dta("https://www.dropbox.com/sh/rqmo1hvij1veff0/AAAOb_v-Y2V0NN4-rxahZjl4a/cps.dta?dl=1")
 summary(cps_dat)
 
 # What percentage of respondents has at least some college education (rounded up to the nearest percent)?
+colnames(cps_dat)
 unique(cps_dat$education)
+
 cps_dat %>%
-  mutate(college = case_when(education == 'come col' ~ 1,
+  mutate(college = case_when(education == 'some col' ~ 1,
                              education == 'col+' ~ 1))
 # but... all non college educated people now have no values
 
 cps_dat %>%
-  mutate(college = case_when(education == 'come col' ~ 1,
+  mutate(college = case_when(education == 'some col' ~ 1,
                              education == 'col+' ~ 1,
                              TRUE ~ 0)) # turns NAs to 0
 
-cps_dat = cps_dat %>%
-  mutate(college = case_when(education == 'some col' ~ 1,
-                             education == 'col+' ~ 1,
-                             TRUE ~ 0))
 
 round(mean(cps_dat$college),2)
+
+cps_dat %>%
+  with(summary(glm(employed ~ black, family = binomial)))
+
 
 # Some functional forms... but lets just use the auto dataset to predict price
 # Interaction terms
