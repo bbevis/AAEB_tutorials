@@ -91,8 +91,8 @@ auto = read.csv('auto.csv', header = TRUE) %>%
 
 ## set the seed to make your partition reproducible
 set.seed(42)
-## 75% of the sample size
-smp_size = floor(0.70 * nrow(titanic))
+## 70% of the sample size
+smp_size = floor(0.70 * nrow(auto))
 train_ind = sample(seq_len(nrow(auto)), size = smp_size)
 
 train <- auto[train_ind, ]
@@ -141,3 +141,4 @@ recall = round(results[[4]][[1]], 2)
 
 F1 = round(2 * (precision * recall) / (precision + recall),2)
 print(c(precision, recall, F1))
+
