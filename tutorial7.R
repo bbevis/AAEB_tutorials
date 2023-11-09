@@ -103,7 +103,7 @@ IVs_all = paste(paste(IVs_1, collapse = " + "), paste(IVs_2, collapse = " + "), 
 mod_iv = ivreg(as.formula(paste("log(quantity)", paste(IVs_all), sep = " ~ ")), data = d4)
 summary(mod_iv)
 # coeff on price = -0.88930
-# coeff on price WAS = -0.649479
+# coeff on price WAS -0.649479
 
 # Price is more elastic in the IV model than the OLS model.
 # Because cartels push up prices, excluding them from the model means that
