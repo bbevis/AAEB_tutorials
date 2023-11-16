@@ -24,6 +24,8 @@ head(d4)
 hist(d4$quantity)
 hist(d4$price)
 
+
+
 d4 %>%
   ggplot(aes(x = quantity, y = price))+
   geom_point()
@@ -71,6 +73,7 @@ summary(mod)
 
 # Cartels restrict supply of certain commodities (e.g. OPEC and oil), creating
 # a monopoly and inflating price.
+
 # Hypothesis 1: Cartel -> increases price
 # Hypothesis 2: Cartel -> restricts supply
 # 
@@ -83,6 +86,7 @@ summary(mod_quant)
 linearHypothesis(mod_quant,"cartel=0") # strong negative effect
 
 # Hypothesis 2
+
 IVs = c('cartel', 'ice' , 'seas1'  , 'seas2'  , 'seas3' ,  'seas4' ,  'seas5' ,  'seas6'  , 'seas7' , 'seas8' , 'seas9', 'seas10', 'seas11')
 f = as.formula(paste("price", paste(IVs, collapse = " + "), sep = " ~ "))
 mod_price = lm(f, data = d4)
