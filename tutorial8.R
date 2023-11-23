@@ -1,6 +1,7 @@
 library(ggplot2)
 library(tidyverse)
 library(lubridate)
+
 # Exercise 9.1
 # 
 # The oj.csv dataset contains monthly data on the log price of (frozen) orange juice concentrate (for the US) as the variable lnp.
@@ -11,6 +12,7 @@ library(lubridate)
 
 
 oj_dat = read.csv("https://github.com/mondpanther/datastorieshub/raw/master/data/oj.csv")  
+
 oj_dat = oj_dat %>%
   mutate(date=as.Date(date))
 
@@ -107,5 +109,5 @@ oj_dat %>%
   mutate(lnp_diff = lag(lnp) - lnp,
          fdd_m1 = lag(fdd),
          trend = 1:n()) %>%
-  with(summary(lm(lnp_diff ~ fdd_m1 + trend)))
+  with(summary(lm(lnp_diff ~ fdd + trend)))
 
